@@ -1,6 +1,8 @@
 package tw.edu.tp.cksh.minimap;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 import android.location.*;
@@ -15,6 +17,7 @@ public class OurGPSListener implements LocationListener {
 	public void onLocationChanged(Location loc) {
 		TextView label = (TextView) 
 					referenceToMainActivity.findViewById(R.id.coord_text);
+		referenceToMainActivity.setCenter(loc.getLatitude(), loc.getLongitude());
 		
 		Geocoder geocoder = new Geocoder(referenceToMainActivity);
 		try {
@@ -23,7 +26,7 @@ public class OurGPSListener implements LocationListener {
 											 loc.getLongitude(), 
 											 1);
 			if (addresses.size() > 0) {
-				label.setText(addresses.get(0).toString());
+				label.setText(addresses.get(0).getLocality());
 			}
 		} catch (IOException e) {
 			label.setText("沒有連上網QAQ");

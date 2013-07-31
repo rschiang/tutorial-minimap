@@ -1,5 +1,8 @@
 package tw.edu.tp.cksh.minimap;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import android.os.Bundle;
 import android.location.*;
 import android.app.Activity;
@@ -10,6 +13,7 @@ public class MainActivity extends Activity {
 	
 	private LocationManager manager;
 	private OurGPSListener listener;
+	private int zoom = 16;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +39,19 @@ public class MainActivity extends Activity {
 		manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 
 									10 * 1000 /*²@¬í*/, 30 /*m*/, listener);
 	}
+
+    public void setCenter(double lat, double lon) {
+    	try {
+			URL url = new URL("http://maps.googleapis.com/maps/api/staticmap?" + 
+						      "zoom=" + zoom + "&size=800x800" +
+						      "&sensor=false&center=" + lat + "," + lon);
+
+			DownloadAsyncTask task = new DownloadAsyncTask();
+			task.referenceToMainActivity = this;
+			task.execute(url);
+		} catch (MalformedURLException e) {
+		}
+    }
 	
 	@Override
 	protected void onDestroy() {
