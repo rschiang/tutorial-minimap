@@ -17,7 +17,6 @@ public class OurGPSListener implements LocationListener {
 	public void onLocationChanged(Location loc) {
 		TextView label = (TextView) 
 					referenceToMainActivity.findViewById(R.id.coord_text);
-		referenceToMainActivity.setCenter(loc.getLatitude(), loc.getLongitude());
 		
 		Geocoder geocoder = new Geocoder(referenceToMainActivity);
 		try {
@@ -31,6 +30,8 @@ public class OurGPSListener implements LocationListener {
 		} catch (IOException e) {
 			label.setText("沒有連上網QAQ");
 		}
+		referenceToMainActivity.updateCoordinate(loc.getLatitude(), loc.getLongitude());
+		referenceToMainActivity.updateMapImage();
 	}
 
 	@Override
